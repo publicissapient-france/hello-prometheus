@@ -91,6 +91,17 @@ Where `<QUERY>` is, well, your query.
 - Prometheus: <http://localhost:8080>
 - Grafana: <http://localhost:3000>
 
+## Requirements
+
+In order to understand this demo, we expect participants to have some
+theoretical knowledge of Prometheus and associated tooling.
+
+The bare minimum is to know about:
+
+- The Prometheus metrics format
+- The _pull_ approach
+- The main components of common stacks: Prometheus, AlertManager, Grafana
+
 ## Demo flow
 
 1. Automagic instrumentation for tech metrics (with Flask)
