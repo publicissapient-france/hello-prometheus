@@ -34,6 +34,20 @@ python ./app.py
 
 Well done! The demo app is now available on port `5000`
 
+### Querying metrics
+
+Yay, your app is exposing metrics!
+
+Query them with your favorite HTTP client:
+
+```shell
+# Using curl
+curl https://localhost:5000/metrics
+
+# Using httpie
+http https://localhost:5000/metrics
+```
+
 ### Starting components
 
 Some components in the `docker-compose.yml` are commented out, because we
