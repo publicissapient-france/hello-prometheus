@@ -70,3 +70,9 @@ http 'https://localhost:9090/api/v1/query?query=<QUERY>'
 ```
 
 Where `<QUERY>` is, well, your query.
+
+### Links summary
+
+- App: <http://localhost:5000>
+- Prometheus: <http://localhost:8080>
+- Grafana: <http://localhost:5000>
