@@ -123,5 +123,17 @@ The bare minimum is to know about:
 10. `curl` to generate requests and see graph changes
 11. AlertManager bootstrap
     - ?
-12. Trigger an Alert
+12. Trigger an Alert - _(idea: `nb_jokes > 10` = "The number of jokes is too damn
+    high!" ?)
 13. Slack notification?
+
+## Demo app
+
+- Number of jokes (counter)
+- Number of channel members (gauge)
+- Number of reaction emoji with label for joke "ID"
+- Tech metrics
+    - Number of calls
+    - Response time
+    - Failure rate
+    - ...
