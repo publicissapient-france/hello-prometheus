@@ -75,4 +75,4 @@ Where `<QUERY>` is, well, your query.
 
 - App: <http://localhost:5000>
 - Prometheus: <http://localhost:8080>
-- Grafana: <http://localhost:5000>
+- Grafana: <http://localhost:3000>
