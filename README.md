@@ -35,7 +35,7 @@ documentation](https://docs.docker.com/compose/gettingstarted/https://docs.docke
 
 You will have:
 
-- **Prometheus** available on port `9090` and scraping `localhost:8080`
+- **Prometheus** available on port `9090` and scraping `localhost:5000`
 - **Grafana** available on port `3000`
 
 ### Querying Prometheus

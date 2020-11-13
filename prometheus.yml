@@ -6,6 +6,6 @@ scrape_configs:
   - job_name: xblagues
     static_configs:
       - targets:
-          - 'localhost:8080'
+          - 'localhost:5000'
         labels:
           source: "xblagues"
