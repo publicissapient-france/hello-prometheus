@@ -11,7 +11,7 @@ services:
     volumes:
       - type: bind
         source: ./prometheus.yml
-        target: /opt/app/static
+        target: /etc/prometheus/prometheus.yml
 
   grafana:
     image: "grafana/grafana:7.3.2"
