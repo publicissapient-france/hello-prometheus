@@ -13,5 +13,9 @@ services:
         source: ./prometheus.yml
         target: /opt/app/static
 
-  # grafana:
-  #   image: "TODO"
+  grafana:
+    image: "grafana/grafana:7.3.2"
+
+    # ports:
+    #   - "3000:3000"
+    network_mode: "host"
