@@ -14,6 +14,25 @@ In order to run this hello-world yourself, you'll need:
   `version`)_
 - **Docker Compose** >= 1.27 _(might work with lower versions, didnt't test for
   it)_
+- **Python 3**
+
+### Running the app
+
+```shell
+# Setup your virtualenv
+virtualenv --python=python3 venv
+
+# Enable it
+source ./venv/bin/activate
+
+# Install required libraries
+pip install -r requirements.txt.lock
+
+# Run the app!
+python ./app.py
+```
+
+Well done! The demo app is now available on port `5000`
 
 ### Starting components
 
