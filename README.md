@@ -4,6 +4,8 @@ Welcome :)
 
 ## Run it yourself - How-to
 
+Want to run it yourself? Cool!
+
 ### Requirements
 
 In order to run this hello-world yourself, you'll need:
@@ -28,3 +30,24 @@ docker-compose up
 
 If you need more, take a look at the [Docker Compose
 documentation](https://docs.docker.com/compose/gettingstarted/https://docs.docker.com/compose/gettingstarted/)
+
+---
+
+You will have:
+
+- **Prometheus** available on port `9090` and scraping `localhost:8080`
+- **Grafana** available on port `3000`
+
+### Querying Prometheus
+
+You can query prometheus using your favorite HTTP client:
+
+```shell
+# Using curl
+curl 'https://localhost:9090/api/v1/query?query=<QUERY>'
+
+# Using httpie
+http 'https://localhost:9090/api/v1/query?query=<QUERY>'
+```
+
+Where `<QUERY>` is, well, your query.
