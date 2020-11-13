@@ -90,3 +90,27 @@ Where `<QUERY>` is, well, your query.
 - App: <http://localhost:5000>
 - Prometheus: <http://localhost:8080>
 - Grafana: <http://localhost:3000>
+
+## Demo flow
+
+1. Automagic instrumentation for tech metrics (with Flask)
+2. `curl` + explanations
+3. Manual instrumentation for business metrics (Python Prometheus client SDK)
+4. `curl` + explanations
+5. Prometheus bootstrap
+    - `docker-compose.yml`
+    - `prometheus.yml` for scraping config and service discovery
+    - Show off of external sample using Kubernetes annotations for service
+      discovery
+6. Prometheus UI quick walkthrough
+7. `curl` Prometheus query
+8. Grafana bootstgrap
+    - `docker-compose.yml`
+    - Datasource manual addition
+    - Dashboard JSON import
+9. Manual addition of a Grafana panel
+10. `curl` to generate requests and see graph changes
+11. AlertManager bootstrap
+    - ?
+12. Trigger an Alert
+13. Slack notification?
