@@ -1,17 +1,148 @@
-import random
-import time
+import json
+import uuid
 
-from flask import Flask
+from flask import Flask, request, make_response
+from prometheus_client import Counter, Gauge
 from prometheus_flask_exporter import PrometheusMetrics
 
 app = Flask(__name__)
-PrometheusMetrics(app)
+metrics = PrometheusMetrics(app)
+
+
+def get_uuid():
+    return str(uuid.uuid1())
+
+
+# static information as metric
+metrics.info('app_info', 'Application info', version='1.0.0')
+
+number_jokes_counter = Counter('app_number_jokes', 'Number of jokes')
+number_reactions_counter = Counter('app_number_reactions', 'Number of reactions', ['joke_name'])
+number_channel_members_gauge = Gauge('app_number_channel_members', 'Number of members in the channel')
+
+jokes = [{'id': get_uuid(), 'name': 'This is a joke', 'reaction': 0},
+         {'id': get_uuid(), 'name': 'This is a second joke', 'reaction': 0}]
+number_jokes_counter.inc()
+number_jokes_counter.inc()
+
+channel_members = [{'id': get_uuid(), 'name': 'Horgix'},
+                   {'id': get_uuid(), 'name': 'Frédéric'}]
+number_channel_members_gauge.inc()
+number_channel_members_gauge.inc()
 
 
 @app.route('/')
-def render():
-    time.sleep(random.random() * 0.2)
-    return 'ok'
+def main():
+    pass  # requests tracked by default
+
+
+@app.route('/jokes')
+def get_jokes():
+    response = make_response(json.dumps(jokes))
+    response.headers['Content-Type'] = 'application/json'
+    return response
+
+
+@app.route('/add_joke')
+def add_joke():
+    joke = request.args.get('joke')
+    to_dict = dict(id=get_uuid(), name=joke)
+    jokes.append(to_dict)
+
+    number_jokes_counter.inc()
+
+    response = make_response(json.dumps(to_dict))
+    response.headers['Content-Type'] = 'application/json'
+    return response
+
+
+@app.route('/add_reaction')
+def add_reaction_to_joke():
+    joke_id = request.args.get('joke_id')
+
+    joke = None
+    for j in jokes:
+        if j['id'] == joke_id:
+            joke = j
+
+    joke['reaction'] = joke['reaction'] + 1
+
+    number_reactions_counter.labels(joke['name']).inc()
+
+    to_dict = dict(name=joke)
+
+    response = make_response(json.dumps(to_dict))
+    response.headers['Content-Type'] = 'application/json'
+    return response
+
+
+@app.route('/members')
+def get_members():
+    response = make_response(json.dumps(channel_members))
+    response.headers['Content-Type'] = 'application/json'
+    return response
+
+
+@app.route('/add_member')
+def add_member():
+    member = request.args.get('member')
+    to_dict = dict(id=get_uuid(), name=member)
+    channel_members.append(to_dict)
+
+    number_channel_members_gauge.inc()
+
+    response = make_response(json.dumps(to_dict))
+    response.headers['Content-Type'] = 'application/json'
+    return response
+
+
+@app.route('/remove_member')
+def remove_member():
+    member_id = request.args.get('member_id')
+
+    member = None
+    for m in channel_members:
+        if m['id'] == member_id:
+            member = m
+
+    member_index = channel_members.index(member)
+    channel_members.pop(member_index)
+
+    number_channel_members_gauge.dec()
+
+    response = make_response()
+    response.headers['Content-Type'] = 'application/json'
+    return response
+
+
+@app.route('/skip')
+@metrics.do_not_track()
+def skip():
+    pass  # default metrics are not collected
+
+
+@app.route('/<item_type>')
+@metrics.do_not_track()
+@metrics.counter('invocation_by_type', 'Number of invocations by type',
+                 labels={'item_type': lambda: request.view_args['type']})
+def by_type(item_type):
+    pass  # only the counter is collected, not the default metrics
+
+
+@app.route('/long-running')
+@metrics.gauge('in_progress', 'Long running requests in progress')
+def long_running():
+    pass
+
+
+@app.route('/status/<int:status>')
+@metrics.do_not_track()
+@metrics.summary('requests_by_status', 'Request latencies by status',
+                 labels={'status': lambda r: r.status_code})
+@metrics.histogram('requests_by_status_and_path', 'Request latencies by status and path',
+                   labels={'status': lambda r: r.status_code, 'path': lambda: request.path})
+def echo_status(status):
+    return 'Status: %s' % status, status
 
 
 if __name__ == '__main__':

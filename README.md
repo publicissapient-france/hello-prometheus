@@ -91,7 +91,7 @@ python ./app.py
 
 Well done! The demo app is now available on port `5000`
 
-### Querying metrics
+## Querying metrics
 
 Yay, your app is exposing metrics!
 
@@ -99,10 +99,57 @@ Query them with your favorite HTTP client:
 
 ```shell
 # Using curl
-curl https://localhost:5000/metrics
+curl http://localhost:5000/metrics
 
 # Using httpie
-http https://localhost:5000/metrics
+http http://localhost:5000/metrics
+```
+
+## Querying the app
+
+For simplicity of this hello-world, all the routes are using GET.
+
+### Get all the jokes
+
+```shell
+curl "localhost:5000/jokes"
+```
+
+### Add a joke
+
+It will increment the counter for the number of jokes.
+
+```shell
+curl "localhost:5000/add_joke?joke=My new joke"
+```
+
+### Add a reaction to a joke
+
+It will increment the counter for the number of reactions.
+
+```shell
+curl "localhost:5000/add_reaction?joke_id=xxx"
+```
+
+### Get all the channel members
+
+```shell
+curl "localhost:5000/members"
+```
+
+### Add a channel member
+
+It will increment the gauge for the number of members.
+
+```shell
+curl "localhost:5000/add_member?member=My new member"
+```
+### Remove a channel member
+
+It will decrement the gauge for the number of members.
+
+```shell
+curl "localhost:5000/remove_member?member_id=xxx"
 ```
 
 ### Starting components
