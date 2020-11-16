@@ -1,0 +1,9 @@
+groups:
+  - name: AppMonitoring
+    rules:
+      - alert: NotEnoughMembers
+        expr: app_number_channel_members < 2
+        for: 5s
+        # Labels - additional labels to be attached to the alert
+        labels:
+          severity: 'critical'

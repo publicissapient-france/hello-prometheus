@@ -5,17 +5,27 @@ services:
   prometheus:
     image: "prom/prometheus:v2.22.1" # https://hub.docker.com/r/prom/prometheus
 
-    # ports:
-    #   - "9090:9090"
-    network_mode: "host"
+    ports:
+      - "9090:9090"
     volumes:
       - type: bind
-        source: ./prometheus.yml
-        target: /etc/prometheus/prometheus.yml
+        source: ./prometheus/
+        target: /etc/prometheus/
+    depends_on:
+      - alertmanager
+
+  alertmanager:
+    image: "prom/alertmanager:v0.21.0"
+
+    ports:
+      - "9093:9093"
+    volumes:
+      - type: bind
+        source: ./alertmanager/
+        target: /etc/alertmanager/
 
   grafana:
     image: "grafana/grafana:7.3.2"
 
-    # ports:
-    #   - "3000:3000"
-    network_mode: "host"
+    ports:
+      - "3000:3000"
