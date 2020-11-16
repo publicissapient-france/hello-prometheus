@@ -170,7 +170,11 @@ documentation](https://docs.docker.com/compose/gettingstarted/https://docs.docke
 
 You will end up with:
 
-- **Prometheus** available on port `9090` and scraping `localhost:5000`
+- **Alertmanager** available on port `9093`
+- **Prometheus** available on port `9090` 
+    - scraping `localhost:5000` (the app)
+    - scraping `localhost:9090` (Prometheus itself)
+    - sending alerts to `localhost:9093` (Alertmanager)
 - **Grafana** available on port `3000`
 
 ### Querying Prometheus
@@ -190,5 +194,6 @@ Where `<QUERY>` is, well, your query.
 ### 🔗 Links summary
 
 - App: <http://localhost:5000>
-- Prometheus: <http://localhost:8080>
+- Alertmanager: <http://localhost:9093>
+- Prometheus: <http://localhost:9090>
 - Grafana: <http://localhost:3000>
