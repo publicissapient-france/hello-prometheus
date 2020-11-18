@@ -24,8 +24,8 @@ services:
       - "9093:9093"
     volumes:
       - type: bind
-        source: ./alertmanager/
-        target: /etc/alertmanager/
+        source: ./alertmanager.yml
+        target: /etc/alertmanager/alertmanager.yml
 
   grafana:
     image: "grafana/grafana:7.3.2"
