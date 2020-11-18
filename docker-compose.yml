@@ -11,6 +11,9 @@ services:
       - type: bind
         source: ./prometheus.yml
         target: /etc/prometheus/prometheus.yml
+      - type: bind
+        source: ./alerts.yml
+        target: /etc/prometheus/alerts.yml
     depends_on:
       - alertmanager
 
