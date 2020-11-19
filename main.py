@@ -1,15 +1,17 @@
 import json
 import uuid
 
+
 from flask import Flask, request, make_response
 from prometheus_client import Counter, Gauge
 from prometheus_flask_exporter import PrometheusMetrics
+
 
 app = Flask(__name__)
 metrics = PrometheusMetrics(app)
 
 
-def get_uuid():
+def gen_new_uuid():
     return str(uuid.uuid1())
 
 
@@ -20,13 +22,13 @@ number_jokes_counter = Counter('app_number_jokes', 'Number of jokes')
 number_reactions_counter = Counter('app_number_reactions', 'Number of reactions', ['joke_name'])
 number_channel_members_gauge = Gauge('app_number_channel_members', 'Number of members in the channel')
 
-jokes = [{'id': get_uuid(), 'name': 'This is a joke', 'reaction': 0},
-         {'id': get_uuid(), 'name': 'This is a second joke', 'reaction': 0}]
+jokes = [{'id': gen_new_uuid(), 'name': 'This is a joke', 'reaction': 0},
+         {'id': gen_new_uuid(), 'name': 'This is a second joke', 'reaction': 0}]
 number_jokes_counter.inc()
 number_jokes_counter.inc()
 
-channel_members = [{'id': get_uuid(), 'name': 'Horgix'},
-                   {'id': get_uuid(), 'name': 'Frédéric'}]
+channel_members = [{'id': gen_new_uuid(), 'name': 'Horgix'},
+                   {'id': gen_new_uuid(), 'name': 'Frédéric'}]
 number_channel_members_gauge.inc()
 number_channel_members_gauge.inc()
 
@@ -46,7 +48,7 @@ def get_jokes():
 @app.route('/add_joke')
 def add_joke():
     joke = request.args.get('joke')
-    to_dict = dict(id=get_uuid(), name=joke)
+    to_dict = dict(id=gen_new_uuid(), name=joke)
     jokes.append(to_dict)
 
     number_jokes_counter.inc()
@@ -86,7 +88,7 @@ def get_members():
 @app.route('/add_member')
 def add_member():
     member = request.args.get('member')
-    to_dict = dict(id=get_uuid(), name=member)
+    to_dict = dict(id=gen_new_uuid(), name=member)
     channel_members.append(to_dict)
 
     number_channel_members_gauge.inc()
