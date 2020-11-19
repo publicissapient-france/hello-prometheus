@@ -1,3 +1,9 @@
+"""
+Demo app for Prometheus basics.
+
+Concept: a "Jokes" app inspired by #x-blagues (Sapient France's Slack channel)
+"""
+
 import json
 import uuid
 
