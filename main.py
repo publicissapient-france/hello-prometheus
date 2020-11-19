@@ -121,17 +121,16 @@ def add_member():
 def remove_member():
     member_id = request.args.get('member_id')
 
-    member = None
-    for m in channel_members:
-        if m['id'] == member_id:
-            member = m
+    members_dict = {member['id']: member for member in channel_members}
+    if member_id not in members_dict:
+        return api_response_from_dict({"Error": "Failed to find member"})
 
-    member_index = channel_members.index(member)
+    member_index = channel_members.index(members_dict[member_id])
     channel_members.pop(member_index)
 
     number_channel_members_gauge.dec()
 
-    return api_response_from_dict()
+    return api_response_from_dict({"Success": f"Removed member {member_id}"})
 
 
 @app.route('/skip')
