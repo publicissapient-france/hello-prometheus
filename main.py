@@ -5,6 +5,7 @@ Concept: a "Jokes" app inspired by #x-blagues (Sapient France's Slack channel)
 """
 
 import json
+import time
 import uuid
 
 
@@ -139,18 +140,19 @@ def skip():
     pass  # default metrics are not collected
 
 
-@app.route('/<item_type>')
+@app.route('/misc/<item_type>')
 @metrics.do_not_track()
 @metrics.counter('invocation_by_type', 'Number of invocations by type',
-                 labels={'item_type': lambda: request.view_args['type']})
+                 labels={'item_type': lambda: request.view_args['item_type']})
 def by_type(item_type):
-    pass  # only the counter is collected, not the default metrics
+    return api_response_from_dict({"Success": f"{item_type}"})
 
 
 @app.route('/long-running')
 @metrics.gauge('in_progress', 'Long running requests in progress')
 def long_running():
-    pass
+    time.sleep(3)
+    return api_response_from_dict({"Success": "Long running success"})
 
 
 @app.route('/status/<int:status>')
