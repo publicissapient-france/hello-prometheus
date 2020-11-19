@@ -44,7 +44,7 @@ number_jokes_counter = Counter(
 number_reactions_counter = Counter(
     name            = 'xblagues_number_reactions',
     documentation   = 'Number of reactions',
-    labelnames      = ['joke_name']
+    labelnames      = ['joke_id']
 )
 number_channel_members_gauge = Gauge(
     name            = 'xblagues_number_channel_members',
@@ -95,7 +95,7 @@ def add_reaction_to_joke():
 
     joke['reaction'] = joke['reaction'] + 1
 
-    number_reactions_counter.labels(joke['content']).inc()
+    number_reactions_counter.labels(joke['id']).inc()
 
     to_dict = dict(name=joke)
 
