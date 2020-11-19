@@ -1,18 +1,6 @@
 global:
-  # How frequently to scrape targets
-  scrape_interval: 10s
-  # How frequently to evaluate rules
-  evaluation_interval: 10s
-
-rule_files:
-  - app-rules.yml
-
-alerting:
-  alertmanagers:
-    - static_configs:
-        - targets:
-            # Alertmanager's default port is 9093
-            - 'host.docker.internal:9093'
+  scrape_interval:      10s   # How frequently to scrape targets
+  evaluation_interval:  10s   # How frequently to evaluate rules (alerts)
 
 # A list of scrape configurations.
 scrape_configs:
@@ -26,3 +14,13 @@ scrape_configs:
           - 'host.docker.internal:5000'
         labels:
           source: "xblagues"
+
+rule_files:
+  - alerts.yml
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+            # Alertmanager's default port is 9093
+            - 'host.docker.internal:9093'
