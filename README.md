@@ -9,7 +9,7 @@ live-coding / demo ⚡
 
 ## Requirements
 
-In order to understand this demo, participants are expectedto have some
+In order to understand this demo, participants are expected to have some
 theoretical knowledge of Prometheus and associated tooling beforehand.
 
 The bare minimum is to know about:
@@ -91,7 +91,7 @@ python ./app.py
 
 Well done! The demo app is now available on port `5000`
 
-## Querying metrics
+### Querying metrics
 
 Yay, your app is exposing metrics!
 
@@ -105,56 +105,33 @@ curl http://localhost:5000/metrics
 http http://localhost:5000/metrics
 ```
 
-## Querying the app
+### Querying the app
 
 For simplicity of this hello-world, all the routes are using GET.
 
-### Get all the jokes
+Here are some example calls:
 
 ```shell
-curl "localhost:5000/jokes"
+# Jokes
+curl "localhost:5000/jokes"                       # Get all the jokes
+curl "localhost:5000/add_joke?joke=My new joke"   # Add a joke
+curl "localhost:5000/add_reaction?joke_id=xxx"    # Add a reaction to a joke
+
+# Members
+curl "localhost:5000/members"                         # Get all the channel members
+curl "localhost:5000/add_member?member=My new member" # Add a channel member
+curl "localhost:5000/remove_member?member_id=xxx"     # Remove a channel member
 ```
 
-### Add a joke
+## Available metrics
 
-It will increment the counter for the number of jokes.
+Here are the available metrics exposed by the app:
 
-```shell
-curl "localhost:5000/add_joke?joke=My new joke"
-```
-
-### Add a reaction to a joke
-
-It will increment the counter for the number of reactions.
-
-```shell
-curl "localhost:5000/add_reaction?joke_id=xxx"
-```
-
-### Get all the channel members
-
-```shell
-curl "localhost:5000/members"
-```
-
-### Add a channel member
-
-It will increment the gauge for the number of members.
-
-```shell
-curl "localhost:5000/add_member?member=My new member"
-```
-### Remove a channel member
-
-It will decrement the gauge for the number of members.
-
-```shell
-curl "localhost:5000/remove_member?member_id=xxx"
-```
+- TODO
 
 ### Starting components
 
-Some components in the `docker-compose.yml` are commented out, because we
+Some components in the `docker-compose.yml` might be commented out, because we
 toggle them progressively when demo-ing this hello-world.
 
 In order to start the stack, simply run:
