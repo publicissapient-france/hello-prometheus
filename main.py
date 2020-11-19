@@ -20,7 +20,7 @@ metrics = PrometheusMetrics(app)
 
 def gen_new_uuid():
     """Simple Helper to generate jokes IDs"""
-    return str(uuid.uuid1())
+    return str(uuid.uuid4())[:8]
 
 
 def api_response_from_dict(content_dict=None):
