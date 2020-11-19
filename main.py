@@ -89,8 +89,8 @@ def add_reaction_to_joke():
     joke_id = request.args.get('joke_id')
 
     jokes_dict = {joke['id']: joke for joke in jokes}
-    if "id" not in jokes_dict:
-        return api_response_from_dict({"Failed to find joke"})
+    if joke_id not in jokes_dict:
+        return api_response_from_dict({"Error": "Failed to find joke"})
 
     jokes_dict[joke_id]['reactions'] += 1
 
