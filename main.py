@@ -52,8 +52,8 @@ number_channel_members_gauge = Gauge(
 )
 
 # Get some base jokes to work on
-jokes = [{'id': gen_new_uuid(), 'name': 'This is a joke', 'reaction': 0},
-         {'id': gen_new_uuid(), 'name': 'This is a second joke', 'reaction': 0}]
+jokes = [{'id': gen_new_uuid(), 'content': 'This is a joke', 'reaction': 0},
+         {'id': gen_new_uuid(), 'content': 'This is a second joke', 'reaction': 0}]
 number_jokes_counter.inc()
 number_jokes_counter.inc()
 
@@ -76,7 +76,7 @@ def get_jokes():
 @app.route('/add_joke')
 def add_joke():
     joke = request.args.get('joke')
-    new_joke = {"id": gen_new_uuid(), "name": joke}
+    new_joke = {"id": gen_new_uuid(), "content": joke}
     jokes.append(new_joke)
 
     number_jokes_counter.inc()
@@ -95,7 +95,7 @@ def add_reaction_to_joke():
 
     joke['reaction'] = joke['reaction'] + 1
 
-    number_reactions_counter.labels(joke['name']).inc()
+    number_reactions_counter.labels(joke['content']).inc()
 
     to_dict = dict(name=joke)
 
