@@ -13,21 +13,35 @@ from prometheus_client import Counter, Gauge
 from prometheus_flask_exporter import PrometheusMetrics
 
 
+# Initialization
 app = Flask(__name__)
 metrics = PrometheusMetrics(app)
 
 
 def gen_new_uuid():
+    """Simple Helper to generate jokes IDs"""
     return str(uuid.uuid1())
 
 
-# static information as metric
+# Static information as metric
 metrics.info('app_info', 'Application info', version='1.0.0')
 
-number_jokes_counter = Counter('app_number_jokes', 'Number of jokes')
-number_reactions_counter = Counter('app_number_reactions', 'Number of reactions', ['joke_name'])
-number_channel_members_gauge = Gauge('app_number_channel_members', 'Number of members in the channel')
+# "Business" metrics
+number_jokes_counter = Counter(
+    name            = 'app_number_jokes',
+    documentation   = 'Number of jokes'
+)
+number_reactions_counter = Counter(
+    name            = 'app_number_reactions',
+    documentation   = 'Number of reactions',
+    labelnames      = ['joke_name']
+)
+number_channel_members_gauge = Gauge(
+    name            = 'app_number_channel_members',
+    documentationn  = 'Number of members in the channel'
+)
 
+# Get some base jokes to work on
 jokes = [{'id': gen_new_uuid(), 'name': 'This is a joke', 'reaction': 0},
          {'id': gen_new_uuid(), 'name': 'This is a second joke', 'reaction': 0}]
 number_jokes_counter.inc()
