@@ -76,7 +76,7 @@ def get_jokes():
 @app.route('/add_joke')
 def add_joke():
     joke = request.args.get('joke')
-    new_joke = {"id": gen_new_uuid(), "content": joke}
+    new_joke = {"id": gen_new_uuid(), "content": joke, "reactions": 0}
     jokes.append(new_joke)
 
     number_jokes_counter.inc()
