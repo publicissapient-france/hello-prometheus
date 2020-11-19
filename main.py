@@ -23,6 +23,15 @@ def gen_new_uuid():
     return str(uuid.uuid1())
 
 
+def api_response_from_dict(content_dict=None):
+    if content_dict:
+        response = make_response(json.dumps(content_dict))
+    else:
+        response = make_response()
+    response.headers['Content-Type'] = 'application/json'
+    return response
+
+
 # Static information as metric
 metrics.info('app_info', 'Application info', version='1.0.0')
 
@@ -38,7 +47,7 @@ number_reactions_counter = Counter(
 )
 number_channel_members_gauge = Gauge(
     name            = 'app_number_channel_members',
-    documentationn  = 'Number of members in the channel'
+    documentation   = 'Number of members in the channel'
 )
 
 # Get some base jokes to work on
@@ -60,9 +69,7 @@ def main():
 
 @app.route('/jokes')
 def get_jokes():
-    response = make_response(json.dumps(jokes))
-    response.headers['Content-Type'] = 'application/json'
-    return response
+    return api_response_from_dict(jokes)
 
 
 @app.route('/add_joke')
@@ -73,9 +80,7 @@ def add_joke():
 
     number_jokes_counter.inc()
 
-    response = make_response(json.dumps(to_dict))
-    response.headers['Content-Type'] = 'application/json'
-    return response
+    return api_response_from_dict(to_dict)
 
 
 @app.route('/add_reaction')
@@ -93,16 +98,12 @@ def add_reaction_to_joke():
 
     to_dict = dict(name=joke)
 
-    response = make_response(json.dumps(to_dict))
-    response.headers['Content-Type'] = 'application/json'
-    return response
+    return api_response_from_dict(to_dict)
 
 
 @app.route('/members')
 def get_members():
-    response = make_response(json.dumps(channel_members))
-    response.headers['Content-Type'] = 'application/json'
-    return response
+    return api_response_from_dict(channel_members)
 
 
 @app.route('/add_member')
@@ -132,9 +133,7 @@ def remove_member():
 
     number_channel_members_gauge.dec()
 
-    response = make_response()
-    response.headers['Content-Type'] = 'application/json'
-    return response
+    return api_response_from_dict()
 
 
 @app.route('/skip')
