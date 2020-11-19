@@ -19,11 +19,12 @@ metrics = PrometheusMetrics(app)
 
 
 def gen_new_uuid():
-    """Simple Helper to generate jokes IDs"""
+    """Simple helper to generate jokes IDs"""
     return str(uuid.uuid4())[:8]
 
 
 def api_response_from_dict(content_dict=None):
+    """Simple helper to make it easier to return API responses in JSON"""
     if content_dict:
         response = make_response(json.dumps(content_dict))
     else:
@@ -33,20 +34,20 @@ def api_response_from_dict(content_dict=None):
 
 
 # Static information as metric
-metrics.info('app_info', 'Application info', version='1.0.0')
+metrics.info('xblagues_info', 'Application info', version='1.0.0')
 
 # "Business" metrics
 number_jokes_counter = Counter(
-    name            = 'app_number_jokes',
+    name            = 'xblagues_number_jokes',
     documentation   = 'Number of jokes'
 )
 number_reactions_counter = Counter(
-    name            = 'app_number_reactions',
+    name            = 'xblagues_number_reactions',
     documentation   = 'Number of reactions',
     labelnames      = ['joke_name']
 )
 number_channel_members_gauge = Gauge(
-    name            = 'app_number_channel_members',
+    name            = 'xblagues_number_channel_members',
     documentation   = 'Number of members in the channel'
 )
 
