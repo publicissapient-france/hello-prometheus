@@ -76,12 +76,12 @@ def get_jokes():
 @app.route('/add_joke')
 def add_joke():
     joke = request.args.get('joke')
-    to_dict = dict(id=gen_new_uuid(), name=joke)
-    jokes.append(to_dict)
+    new_joke = {"id": gen_new_uuid(), "name": joke}
+    jokes.append(new_joke)
 
     number_jokes_counter.inc()
 
-    return api_response_from_dict(to_dict)
+    return api_response_from_dict(new_joke)
 
 
 @app.route('/add_reaction')
@@ -110,14 +110,12 @@ def get_members():
 @app.route('/add_member')
 def add_member():
     member = request.args.get('member')
-    to_dict = dict(id=gen_new_uuid(), name=member)
-    channel_members.append(to_dict)
+    new_member = {"id": gen_new_uuid(), "name": member}
+    channel_members.append(new_member)
 
     number_channel_members_gauge.inc()
 
-    response = make_response(json.dumps(to_dict))
-    response.headers['Content-Type'] = 'application/json'
-    return response
+    return api_response_from_dict(new_member)
 
 
 @app.route('/remove_member')
